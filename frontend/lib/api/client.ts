@@ -1,7 +1,11 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 interface RequestOptions extends RequestInit {
-  data?: any;
+  data?: unknown;
+}
+
+interface ApiError extends Error {
+  errors?: Record<string, string[]>;
 }
 
 function getCookie(name: string): string | null {
@@ -57,7 +61,7 @@ class ApiClient {
     const result = await response.json();
 
     if (!response.ok) {
-      const error: any = new Error(result.message || 'An error occurred');
+      const error = new Error(result.message || 'An error occurred') as ApiError;
       error.errors = result.errors;
       throw error;
     }
@@ -69,15 +73,15 @@ class ApiClient {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }
 
-  async post<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'POST', data });
   }
 
-  async put<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async put<T>(endpoint: string, data?: unknown, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'PUT', data });
   }
 
-  async patch<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async patch<T>(endpoint: string, data?: unknown, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'PATCH', data });
   }
 

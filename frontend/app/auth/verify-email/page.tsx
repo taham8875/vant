@@ -39,8 +39,9 @@ export default function VerifyEmailPage() {
     try {
       await apiClient.post('/v1/email/resend');
       setMessage('Verification email sent! Please check your inbox.');
-    } catch (err: any) {
-      setError(err.message || 'Failed to send verification email');
+    } catch (err) {
+      const apiError = err as { message?: string };
+      setError(apiError.message || 'Failed to send verification email');
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +59,8 @@ export default function VerifyEmailPage() {
     );
   }
 
-  <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
     <Card className="max-w-md w-full">
       <CardContent className="space-y-8 p-6">
         <div>
@@ -125,5 +127,6 @@ export default function VerifyEmailPage() {
         </div>
       </CardContent>
     </Card>
-  </div>;
+  </div>
+  );
 }

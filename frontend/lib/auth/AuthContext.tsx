@@ -8,7 +8,7 @@ interface User {
   email: string;
   display_name: string;
   subscription_tier: string;
-  notification_preferences: any;
+  notification_preferences: Record<string, unknown>;
   email_verified_at: string | null;
   created_at: string;
 }
@@ -27,13 +27,6 @@ interface AuthContextType {
   refetchUser: () => Promise<void>;
 }
 
-interface RegisterData {
-  email: string;
-  password: string;
-  password_confirmation: string;
-  display_name: string;
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -44,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const userData = await apiClient.get<User>('/v1/user');
       setUser(userData);
-    } catch (error) {
+    } catch {
       setUser(null);
     } finally {
       setLoading(false);

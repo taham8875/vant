@@ -36,11 +36,12 @@ export default function RegisterPage() {
         formData.display_name
       );
       router.push('/dashboard');
-    } catch (error: any) {
-      if (error.errors) {
-        setErrors(error.errors);
+    } catch (error) {
+      const apiError = error as { errors?: Record<string, string[]>; message?: string };
+      if (apiError.errors) {
+        setErrors(apiError.errors);
       } else {
-        setErrors({ general: [error.message || 'Registration failed'] });
+        setErrors({ general: [apiError.message || 'Registration failed'] });
       }
     } finally {
       setIsLoading(false);

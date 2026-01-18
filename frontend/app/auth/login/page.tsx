@@ -30,11 +30,12 @@ export default function LoginPage() {
     try {
       await login(formData.email, formData.password, formData.remember);
       router.push('/dashboard');
-    } catch (error: any) {
-      if (error.errors) {
-        setErrors(error.errors);
+    } catch (error) {
+      const apiError = error as { errors?: Record<string, string[]>; message?: string };
+      if (apiError.errors) {
+        setErrors(apiError.errors);
       } else {
-        setErrors({ general: [error.message || 'Login failed'] });
+        setErrors({ general: [apiError.message || 'Login failed'] });
       }
     } finally {
       setIsLoading(false);
