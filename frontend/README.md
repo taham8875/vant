@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/taham8875/vant/main/frontend/public/icon.svg" alt="Vant Finance Logo" width="80" height="80">
+  <h1>Vant Finance - Frontend</h1>
+</div>
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
