@@ -63,3 +63,9 @@ temp/
 .playwright-mcp/
 test-results/
 playwright-report/
+
+# Claude/AI config
+.claude/
+.specify/
+specs/
+CLAUDE.md
