@@ -48,6 +48,8 @@ Route::prefix('v1')->group(function () {
 
         // Transaction routes
         Route::apiResource('transactions', App\Http\Controllers\TransactionController::class);
+        Route::post('/transactions/transfer', [App\Http\Controllers\TransactionController::class, 'transfer']);
+        Route::post('/transactions/bulk-categorize', [App\Http\Controllers\TransactionController::class, 'bulkCategorize']);
 
         // Category routes
         Route::get('categories', [App\Http\Controllers\CategoryController::class, 'index']);
