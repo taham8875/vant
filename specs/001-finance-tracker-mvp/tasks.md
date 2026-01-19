@@ -34,7 +34,7 @@
 - [ ] T007 Configure backend environment variables template in backend/.env.example
 - [ ] T008 Configure frontend environment variables template in frontend/.env.example
 - [ ] T009 [P] Setup Docker Compose for local development (PostgreSQL, Redis, MinIO) in docker-compose.yml
-- [ ] T010 Generate TypeScript types from OpenAPI spec to shared/types/api.ts
+- [X] T010 Generate TypeScript types from OpenAPI spec to shared/types/api.ts
 
 ---
 

@@ -1,0 +1,12 @@
+{
+  "name": "vant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal Finance Tracking SaaS",
+  "scripts": {
+    "generate-types": "openapi-typescript specs/001-finance-tracker-mvp/contracts/openapi.yaml -o shared/types/api.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.4"
+  }
+}
