@@ -1,0 +1,6 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Geometric Background Shape -->
+  <rect x="15" y="15" width="150" height="150" rx="37.5" stroke="hsl(262.1 83.3% 57.8%)" stroke-width="15" fill="white"/>
+  <!-- Stylized 'V' -->
+  <path d="M52.5 60L90 127.5L127.5 60" stroke="hsl(262.1 83.3% 57.8%)" stroke-width="18.75" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

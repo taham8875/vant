@@ -1,6 +1,8 @@
-# Vant Finance
-
-Personal finance tracking application.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/taham8875/vant/main/frontend/public/icon.svg" alt="Vant Finance Logo" width="80" height="80">
+  <h1>Vant Finance</h1>
+  <p>Personal finance tracking application</p>
+</div>
 
 ## Tech Stack
 
