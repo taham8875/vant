@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/client';
 
 export interface Transaction {
@@ -69,6 +69,7 @@ export function useTransactions(filters?: TransactionFilters) {
       const endpoint = queryString ? `/v1/transactions?${queryString}` : '/v1/transactions';
       return await apiClient.get<{ data: Transaction[]; meta: any }>(endpoint);
     },
+    placeholderData: keepPreviousData,
   });
 }
 
