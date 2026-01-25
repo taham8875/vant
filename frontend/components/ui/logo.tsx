@@ -6,9 +6,10 @@ interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   animated?: boolean;
+  showText?: boolean;
 }
 
-export function Logo({ className = '', size = 'md', animated = true }: LogoProps) {
+export function Logo({ className = '', size = 'md', animated = true, showText = true }: LogoProps) {
   const sizes = {
     sm: 'h-6 w-6',
     md: 'h-8 w-8',
@@ -51,16 +52,23 @@ export function Logo({ className = '', size = 'md', animated = true }: LogoProps
               rx="5"
               stroke="currentColor"
               strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
+              animate={{
+                pathLength: [0, 1, 1, 0],
+                opacity: 1,
+                pathOffset: [0, 0, 0, 1],
+              }}
               transition={{
-                duration: 1.5,
-                ease: 'easeInOut',
-                repeat: 0,
+                duration: 3,
+                ease: [0.4, 0, 0.2, 1],
+                repeat: Infinity,
+                times: [0, 0.4, 0.6, 1],
               }}
             />
           ) : (
-            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2" />
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           )}
 
           {/* Stylized 'V' */}
@@ -91,7 +99,7 @@ export function Logo({ className = '', size = 'md', animated = true }: LogoProps
           )}
         </svg>
       </div>
-      <span className={`font-bold tracking-tight text-foreground ${textSize[size]}`}>Vant</span>
+      {showText && <span className={`font-bold tracking-tight text-foreground ${textSize[size]}`}>Vant</span>}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/auth/AuthContext';
 import { apiClient } from '@/lib/api/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export default function VerifyEmailPage() {
   const router = useRouter();
@@ -52,11 +53,7 @@ export default function VerifyEmailPage() {
   };
 
   if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

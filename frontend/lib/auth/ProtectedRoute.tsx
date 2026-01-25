@@ -3,6 +3,7 @@
 import { useAuth } from './AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -15,11 +16,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }, [user, loading, router]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (!user) {
