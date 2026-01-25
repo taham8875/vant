@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,10 +16,30 @@ import {
 } from '@/lib/hooks/useTransactions';
 import { useAccounts } from '@/lib/hooks/useAccounts';
 import { useCategories } from '@/lib/hooks/useCategories';
+import { useDebounce } from '@/lib/hooks/useDebounce';
 
 export default function TransactionsPage() {
-  const [filters, setFilters] = useState<TransactionFilters>({});
-  const { data: transactionsData, isLoading, error } = useTransactions(filters);
+  // Separate state for immediate UI updates
+  const [searchInput, setSearchInput] = useState('');
+  const [accountFilter, setAccountFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+
+  // Debounce the search input to avoid API calls on every keystroke
+  const debouncedSearch = useDebounce(searchInput, 500);
+
+  // Memoize filters to prevent unnecessary rerenders
+  const filters = useMemo<TransactionFilters>(
+    () => ({
+      search: debouncedSearch || undefined,
+      account_id: accountFilter || undefined,
+      category_id: categoryFilter || undefined,
+      type: typeFilter || undefined,
+    }),
+    [debouncedSearch, accountFilter, categoryFilter, typeFilter]
+  );
+
+  const { data: transactionsData, isLoading, isFetching, error } = useTransactions(filters);
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
   const deleteTransaction = useDeleteTransaction();
@@ -47,11 +67,8 @@ export default function TransactionsPage() {
     setEditingTransaction(null);
   };
 
-  const handleFilterChange = (key: keyof TransactionFilters, value: any) => {
-    setFilters({ ...filters, [key]: value });
-  };
-
-  if (isLoading) {
+  // Only show full-page loading on initial load (no data yet)
+  if (isLoading && !transactionsData) {
     return (
       <MainLayout>
         <div className="flex justify-center items-center h-64">
@@ -78,7 +95,14 @@ export default function TransactionsPage() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Transactions</h1>
+            <h1 className="text-3xl font-bold text-foreground">
+              Transactions
+              {isFetching && transactionsData && (
+                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                  Loading...
+                </span>
+              )}
+            </h1>
             <p className="mt-2 text-muted-foreground">Manage your income and expenses</p>
           </div>
           <div className="flex gap-2">
@@ -96,16 +120,16 @@ export default function TransactionsPage() {
             <Input
               type="text"
               placeholder="Search payee..."
-              value={filters.search || ''}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Account</label>
             <select
-              value={filters.account_id || ''}
-              onChange={(e) => handleFilterChange('account_id', e.target.value)}
+              value={accountFilter}
+              onChange={(e) => setAccountFilter(e.target.value)}
               className="w-full border-input bg-background rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="">All Accounts</option>
@@ -120,8 +144,8 @@ export default function TransactionsPage() {
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Category</label>
             <select
-              value={filters.category_id || ''}
-              onChange={(e) => handleFilterChange('category_id', e.target.value)}
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
               className="w-full border-input bg-background rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="">All Categories</option>
@@ -136,8 +160,8 @@ export default function TransactionsPage() {
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Type</label>
             <select
-              value={filters.type || ''}
-              onChange={(e) => handleFilterChange('type', e.target.value)}
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
               className="w-full border-input bg-background rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="">All Types</option>
