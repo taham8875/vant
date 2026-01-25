@@ -52,6 +52,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/transactions/bulk-categorize', [App\Http\Controllers\TransactionController::class, 'bulkCategorize']);
 
         // Category routes
-        Route::get('categories', [App\Http\Controllers\CategoryController::class, 'index']);
+        Route::apiResource('categories', App\Http\Controllers\CategoryController::class);
     });
 });

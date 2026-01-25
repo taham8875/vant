@@ -61,6 +61,16 @@ export function MainLayout({ children }: MainLayoutProps) {
                     Accounts
                   </Link>
                   <Link
+                    href="/categories"
+                    className={
+                      isActive('/categories')
+                        ? 'bg-primary/10 text-primary rounded-md px-3 py-1.5'
+                        : 'text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md px-3 py-1.5 transition-colors'
+                    }
+                  >
+                    Categories
+                  </Link>
+                  <Link
                     href="/budgets"
                     className={
                       isActive('/budgets')
